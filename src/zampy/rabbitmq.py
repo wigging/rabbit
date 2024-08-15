@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 
 class RabbitMQ:
-    """Class for working with RabbitMQ"""
+    """Class for working with RabbitMQ."""
 
     def __init__(self):
         # Load environment variables from .env file if it exists
@@ -31,7 +31,7 @@ class RabbitMQ:
         self.channel = None
 
     def show_config(self):
-        """Show configuration"""
+        """Show configuration."""
         config_description = f"""
         RabbitMQ configuration
         username    {self.username}
@@ -43,18 +43,30 @@ class RabbitMQ:
         print(textwrap.dedent(config_description))
 
     def connect(self):
-        """Establish a connection"""
+        """Establish a connection."""
         creds = pika.PlainCredentials(self.username, self.password)
         params = pika.ConnectionParameters(credentials=creds)
         connection = pika.BlockingConnection(params)
         self.channel = connection.channel()
 
     def publish(self, body: str):
-        """Publish as message"""
+        """Publish a message"""
         if not self.channel:
             raise Exception("Connection is not established.")
 
         self.channel.queue_declare(queue="hello")
-        self.channel.basic_publish(exchange="", routing_key="hello", body="date")
+        self.channel.basic_publish(exchange="", routing_key="hello", body=body)
 
-        print("[x] Sent the 'date' command")
+        print("[x] Sent the message")
+
+    def consume(self, callback):
+        """Consume messages."""
+        if not self.channel:
+            raise Exception("Connection is not established.")
+
+        self.channel.queue_declare(queue="hello")
+        self.channel.basic_consume(queue="hello", on_message_callback=callback, auto_ack=True)
+
+        print("[*] Waiting for message. To exit press CTRL+C")
+
+        self.channel.start_consuming()
