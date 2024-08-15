@@ -5,3 +5,11 @@ build-backend = "hatchling.build"
 [project]
 name = "zampy"
 version = "24.8"
+dependencies = ["pika", "python-dotenv"]
+
+[tool.pyright]
+reportUnusedImport = true
+reportUnusedVariable = true
+
+[tool.ruff]
+line-length = 100

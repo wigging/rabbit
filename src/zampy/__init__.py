@@ -2,6 +2,6 @@
 Public imports.
 """
 
-from rabbitmq import RabbitMQ
+from .rabbitmq import RabbitMQ
 
 __all__ = ["RabbitMQ"]
