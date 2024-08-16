@@ -8,15 +8,23 @@ from .rabbitmq import RabbitMQ
 class Client:
     """Client class for users."""
 
-    def __init__(self):
-        broker = RabbitMQ()
-        broker.connect()
-        broker.show_config()
-        self.broker = broker
+    def __init__(self, show_config=False):
+        self.broker = RabbitMQ()
+
+        if show_config:
+            self.broker.show_config()
+
+    def connect(self):
+        """Connect to the RabbitMQ broker."""
+        self.broker.connect()
+
+    def close(self):
+        """Close the connection."""
+        self.broker.close()
 
     def send_message(self, msg: str):
         """Send a message."""
-        self.broker.publish(msg)
+        self.broker.publish(queue_name="message", body=msg)
 
     def send_command(self, cmd: str):
         """Send a shell command."""

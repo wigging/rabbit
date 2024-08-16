@@ -6,6 +6,7 @@ import os
 import textwrap
 import pika
 from dotenv import load_dotenv
+from typing import Callable
 
 
 class RabbitMQ:
@@ -28,6 +29,7 @@ class RabbitMQ:
         self.password = os.getenv("RABBITMQ_PASSWORD", default_password)
         self.host = os.getenv("RABBITMQ_HOST", default_host)
         self.port = int(os.getenv("RABBITMQ_PORT", default_port))
+        self.connection = None
         self.channel = None
 
     def show_config(self):
@@ -46,26 +48,31 @@ class RabbitMQ:
         """Establish a connection."""
         creds = pika.PlainCredentials(self.username, self.password)
         params = pika.ConnectionParameters(credentials=creds)
-        connection = pika.BlockingConnection(params)
-        self.channel = connection.channel()
+        self.connection = pika.BlockingConnection(params)
+        self.channel = self.connection.channel()
 
-    def publish(self, body: str):
+    def close(self):
+        """Close the connection."""
+        if self.connection and self.connection.is_open:
+            self.connection.close()
+
+    def publish(self, queue_name: str, body: str):
         """Publish a message"""
         if not self.channel:
             raise Exception("Connection is not established.")
 
-        self.channel.queue_declare(queue="hello")
-        self.channel.basic_publish(exchange="", routing_key="hello", body=body)
+        self.channel.queue_declare(queue=queue_name)
+        self.channel.basic_publish(exchange="", routing_key=queue_name, body=body)
 
         print("[x] Sent the message")
 
-    def consume(self, callback):
+    def consume(self, queue_name: str, callback: Callable):
         """Consume messages."""
         if not self.channel:
             raise Exception("Connection is not established.")
 
-        self.channel.queue_declare(queue="hello")
-        self.channel.basic_consume(queue="hello", on_message_callback=callback, auto_ack=True)
+        self.channel.queue_declare(queue=queue_name)
+        self.channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
 
         print("[*] Waiting for message. To exit press CTRL+C")
 

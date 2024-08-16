@@ -3,6 +3,6 @@ Public imports.
 """
 
 from .client import Client
-from .rabbitmq import RabbitMQ
+from .service import Service
 
-__all__ = ["Client", "RabbitMQ"]
+__all__ = ["Client", "Service"]

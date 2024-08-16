@@ -1,5 +1,5 @@
 """
-Use the show_config method to print out the RabbitMQ configuration.
+Use the show_config parameter to print out the RabbitMQ configuration.
 
 Add a .env file to this directory to load environment variables defined in the file.
 
@@ -17,9 +17,8 @@ import zampy
 
 
 def main():
-    """Run this example"""
-    client = zampy.RabbitMQ()
-    client.show_config()
+    """Run this example."""
+    _ = zampy.Client(show_config=True)
 
 
 if __name__ == "__main__":

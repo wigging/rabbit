@@ -12,10 +12,8 @@ def callback(ch, method, properties, body):
 
 def main():
     """Run service to consume messages."""
-    service = zampy.RabbitMQ()
-    service.connect()
-    service.show_config()
-    service.consume(callback)
+    service = zampy.Service()
+    service.consume_message(callback=callback)
 
 
 if __name__ == "__main__":
