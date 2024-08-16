@@ -1,0 +1,19 @@
+# Use this environment file to create a conda environment for developing the
+# code in this repository. See the comments below for some useful conda
+# commands.
+#
+# Create the environment ....... conda env create --file environment.yml
+# Activate the environment ..... conda activate zampy
+# Deactivate the environment ... conda deactivate
+# Remove the environment ....... conda env remove --name zampy
+
+name: zampy
+
+dependencies:
+  - python
+  - ruff
+  - python-dotenv
+  - pip
+  - pip:
+    - pika
+    - --editable .
