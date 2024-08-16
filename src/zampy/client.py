@@ -26,6 +26,6 @@ class Client:
         """Send a message."""
         self.broker.publish(queue_name="message", body=msg)
 
-    def send_command(self, cmd: str):
-        """Send a shell command."""
-        ...
+    def run_python_script(self, script: str):
+        """Run a python script."""
+        self.broker.publish(queue_name="python", body=script)

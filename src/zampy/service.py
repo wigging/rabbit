@@ -18,3 +18,7 @@ class Service:
     def consume_message(self, callback: Callable):
         """Consume messages from client."""
         self.broker.consume(queue_name="message", callback=callback)
+
+    def run_python_script(self, callback: Callable):
+        """Run a Python script."""
+        self.broker.consume(queue_name="python", callback=callback)
