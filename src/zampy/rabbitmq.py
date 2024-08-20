@@ -73,7 +73,12 @@ class RabbitMQ:
 
         self.channel.queue_declare(queue=queue_name)
         self.channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
+        print("[*] Waiting for message. To exit press CTRL+C.")
 
-        print("[*] Waiting for message. To exit press CTRL+C")
+        try:
+            self.channel.start_consuming()
+        except KeyboardInterrupt:
+            self.channel.stop_consuming()
 
-        self.channel.start_consuming()
+        self.close()
+        print("\n[x] Stopped consuming and closed connection.")
