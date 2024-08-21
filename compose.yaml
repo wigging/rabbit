@@ -2,9 +2,9 @@
 # More info about RabbitMQ at https://www.rabbitmq.com
 
 # Commands for using Docker Compose
-# Create and start containers             ... docker compose up
-# Create and start in detached mode       ... docker compuse up -d
-# Stop active services in terminal        ... press Ctrl+C
+# Create and start containers ............... docker compose up
+# Create and start in detached mode ......... docker compuse up -d
+# Stop active services in terminal .......... press Ctrl+C
 # Stop and remove containers and networks ... docker compose down
 
 services:
