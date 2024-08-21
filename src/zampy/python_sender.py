@@ -1,12 +1,10 @@
-"""
-A client object for users.
-"""
+"""Class for sending Python script names."""
 
 from .rabbitmq import RabbitMQ
 
 
-class Client:
-    """Client class for users."""
+class PythonSender:
+    """A class to send Python script names."""
 
     def __init__(self, show_config=False):
         self.broker = RabbitMQ()
@@ -22,10 +20,6 @@ class Client:
         """Close the connection."""
         self.broker.close()
 
-    def send_message(self, msg: str):
-        """Send a message."""
-        self.broker.publish(queue_name="message", body=msg)
-
-    def run_python_script(self, script: str):
-        """Run a python script."""
-        self.broker.publish(queue_name="python", body=script)
+    def run_script(self, name: str):
+        """Run a Python script using the provided script name."""
+        self.broker.publish(queue_name="python", body=name)
