@@ -64,16 +64,16 @@ class RabbitMQ:
         self.channel.queue_declare(queue=queue_name)
         self.channel.basic_publish(exchange="", routing_key=queue_name, body=body)
 
-        print("[x] Sent the message")
+        print(f"● Sent '{body}' to queue '{queue_name}'")
 
     def consume(self, queue_name: str, callback: Callable):
         """Consume messages."""
         if not self.channel:
-            raise Exception("Connection is not established.")
+            raise Exception("⃠ Connection is not established.")
 
         self.channel.queue_declare(queue=queue_name)
         self.channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
-        print("[*] Waiting for message. To exit press CTRL+C.")
+        print("○ Waiting for sender. Press CTRL+C to exit.\n")
 
         try:
             self.channel.start_consuming()
@@ -81,4 +81,4 @@ class RabbitMQ:
             self.channel.stop_consuming()
 
         self.close()
-        print("\n[x] Stopped consuming and closed connection.")
+        print("\n● Stopped consuming and closed connection.")

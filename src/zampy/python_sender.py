@@ -1,10 +1,10 @@
-"""Class for sending Python script names."""
+"""Class for sending Python commands."""
 
 from .rabbitmq import RabbitMQ
 
 
 class PythonSender:
-    """A class to send Python script names."""
+    """A class to send Python commands."""
 
     def __init__(self, show_config=False):
         self.broker = RabbitMQ()
@@ -17,9 +17,9 @@ class PythonSender:
         self.broker.connect()
 
     def close(self):
-        """Close the connection."""
+        """Close the RabbitMQ broker connection."""
         self.broker.close()
 
-    def run_script(self, name: str):
-        """Run a Python script using the provided script name."""
-        self.broker.publish(queue_name="python", body=name)
+    def run_command(self, cmd: str):
+        """Run a Python command."""
+        self.broker.publish(queue_name="python", body=cmd)

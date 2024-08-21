@@ -7,7 +7,8 @@ def main():
     """Run Python script."""
     sender = zampy.PythonSender()
     sender.connect()
-    sender.run_script("hello.py")
+    sender.run_command("--version")
+    sender.run_command("hello.py")
     sender.close()
 
 

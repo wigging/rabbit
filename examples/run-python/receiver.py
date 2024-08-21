@@ -1,12 +1,12 @@
-"""Run a Python script using script name sent from client."""
+"""Run a Python commands received from sender."""
 
 import zampy
 
 
 def main():
-    """Run Python script."""
+    """Run Python commands."""
     receiver = zampy.PythonReceiver()
-    receiver.run_script()
+    receiver.consume()
 
 
 if __name__ == "__main__":
