@@ -18,7 +18,8 @@ import zampy
 
 def main():
     """Run this example."""
-    _ = zampy.Client(show_config=True)
+    _ = zampy.MessageSender(show_config=True)
+
 
 
 if __name__ == "__main__":
