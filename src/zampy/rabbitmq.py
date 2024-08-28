@@ -1,6 +1,4 @@
-"""
-A class for working with RabbitMQ.
-"""
+"""A class for working with RabbitMQ."""
 
 import os
 import textwrap
@@ -57,7 +55,7 @@ class RabbitMQ:
             self.connection.close()
 
     def publish(self, queue_name: str, body: str):
-        """Publish a message"""
+        """Publish a message."""
         if not self.channel:
             raise Exception("Connection is not established.")
 
@@ -66,6 +64,18 @@ class RabbitMQ:
 
         print(f"● Sent '{body}' to queue '{queue_name}'")
 
+    def publish_durable(self, queue_name: str, body: str):
+        """Publish a message using a durable queue."""
+        if not self.channel:
+            raise Exception("Connection is not established.")
+
+        self.channel.queue_declare(queue=queue_name, durable=True)
+
+        props = pika.BasicProperties(delivery_mode=pika.DeliveryMode.Persistent)
+        self.channel.basic_publish(exchange="", routing_key=queue_name, body=body, properties=props)
+
+        print(f"● Sent '{body}' to durable queue '{queue_name}'")
+
     def consume(self, queue_name: str, callback: Callable):
         """Consume messages."""
         if not self.channel:
@@ -73,6 +83,24 @@ class RabbitMQ:
 
         self.channel.queue_declare(queue=queue_name)
         self.channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
+        print("○ Waiting for sender. Press CTRL+C to exit.\n")
+
+        try:
+            self.channel.start_consuming()
+        except KeyboardInterrupt:
+            self.channel.stop_consuming()
+
+        self.close()
+        print("\n● Stopped consuming and closed connection.")
+
+    def consume_durable(self, queue_name: str, callback: Callable):
+        """Consume messages using durable queue."""
+        if not self.channel:
+            raise Exception("⃠ Connection is not established.")
+
+        self.channel.queue_declare(queue=queue_name, durable=True)
+        self.channel.basic_qos(prefetch_count=1)
+        self.channel.basic_consume(queue=queue_name, on_message_callback=callback)
         print("○ Waiting for sender. Press CTRL+C to exit.\n")
 
         try:

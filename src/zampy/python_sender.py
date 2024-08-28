@@ -23,3 +23,7 @@ class PythonSender:
     def run_command(self, cmd: str):
         """Run a Python command."""
         self.broker.publish(queue_name="python", body=cmd)
+
+    def run_task(self, task: str):
+        """Run a Python task."""
+        self.broker.publish_durable(queue_name="python_task", body=task)
