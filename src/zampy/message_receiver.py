@@ -17,11 +17,20 @@ class MessageReceiver:
         """Consume messages from sender."""
 
         def callback(channel, method, properties, body):
-            print(f"[*] Received message {body}")
-            print("[x] Done\n")
+            print(f"○ Received message {body}")
+            print("● Done\n")
 
         self.broker.consume(queue_name="message", callback=callback)
 
     def consume_callback(self, callback: Callable):
         """Consume messages from sender using provided callback function."""
         self.broker.consume(queue_name="message", callback=callback)
+
+    def consume_emit(self):
+        """Consume messages from sender using exchange fanout."""
+
+        def callback(channel, method, properties, body):
+            print(f"○ Received message {body}")
+            print("● Done\n")
+
+        self.broker.consume_fanout(exchange="emit_message", callback=callback)

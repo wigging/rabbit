@@ -76,6 +76,16 @@ class RabbitMQ:
 
         print(f"● Sent '{body}' to durable queue '{queue_name}'")
 
+    def publish_fanout(self, exchange: str, body: str):
+        """Publish a message to an exchange using fanout."""
+        if not self.channel:
+            raise Exception("Connection is not established.")
+
+        self.channel.exchange_declare(exchange=exchange, exchange_type="fanout")
+        self.channel.basic_publish(exchange=exchange, routing_key="", body=body)
+
+        print(f"● Sent '{body}' to exchange '{exchange}'")
+
     def consume(self, queue_name: str, callback: Callable):
         """Consume messages."""
         if not self.channel:
@@ -101,6 +111,27 @@ class RabbitMQ:
         self.channel.queue_declare(queue=queue_name, durable=True)
         self.channel.basic_qos(prefetch_count=1)
         self.channel.basic_consume(queue=queue_name, on_message_callback=callback)
+        print("○ Waiting for sender. Press CTRL+C to exit.\n")
+
+        try:
+            self.channel.start_consuming()
+        except KeyboardInterrupt:
+            self.channel.stop_consuming()
+
+        self.close()
+        print("\n● Stopped consuming and closed connection.")
+
+    def consume_fanout(self, exchange: str, callback: Callable):
+        """Consume messages from exchange using fanout."""
+        if not self.channel:
+            raise Exception("⃠ Connection is not established.")
+
+        self.channel.exchange_declare(exchange=exchange, exchange_type="fanout")
+
+        result = self.channel.queue_declare(queue="", exclusive=True)
+        queue_name = result.method.queue
+        self.channel.queue_bind(exchange=exchange, queue=queue_name)
+        self.channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
         print("○ Waiting for sender. Press CTRL+C to exit.\n")
 
         try:

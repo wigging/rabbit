@@ -23,3 +23,6 @@ class MessageSender:
         """Send a message."""
         self.broker.publish(queue_name="message", body=msg)
 
+    def emit_message(self, msg: str):
+        """Send message to all message receivers."""
+        self.broker.publish_fanout(exchange="emit_message", body=msg)
