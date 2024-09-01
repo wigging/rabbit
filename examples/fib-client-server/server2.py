@@ -1,4 +1,4 @@
-"""Server to calculate Fibonacci numbers."""
+"""Server to analyze Fibonacci numbers."""
 
 import zampy
 
@@ -6,7 +6,7 @@ import zampy
 def main():
     """Run server."""
     server = zampy.FibServer()
-    server.run_number()
+    server.run_even_odd()
 
 
 if __name__ == "__main__":
