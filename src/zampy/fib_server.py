@@ -16,6 +16,15 @@ def fib(n: int) -> int:
         return fib(n - 1) + fib(n - 2)
 
 
+def even_odd(n: int) -> str:
+    """Determine if a number is even or odd."""
+    if n % 2 == 0:
+        result = "even"
+    else:
+        result = "odd"
+    return result
+
+
 class FibServer:
     """Server that calculates Fibonacci numbers."""
 
@@ -28,7 +37,7 @@ class FibServer:
 
         print(f"[.] Run fib({n})")
         response = fib(n)
-        print("[.] Result is", response)
+        print("[x] Result is", response)
 
         channel.basic_publish(
             exchange="",
@@ -59,15 +68,12 @@ class FibServer:
             print("\n[x] Stopped consuming and closed connection.")
 
     def _callback_even_odd(self, channel, method, properties, body):
-        """here."""
+        """Callback function used by run_even_odd function."""
         n = int(body)
 
         print(f"[.] Analyze number {n}")
-        if n % 2 == 0:
-            response = "even"
-        else:
-            response = "odd"
-        print("[.] Result is", response)
+        response = even_odd(n)
+        print("[x] Result is", response)
 
         channel.basic_publish(
             exchange="",
