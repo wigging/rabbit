@@ -1,11 +1,11 @@
 """Send Python task to the receiver."""
 
-import zampy
+import rabbit
 
 
 def main():
     """Run Python task."""
-    sender = zampy.PythonSender()
+    sender = rabbit.PythonSender()
     sender.connect()
     sender.run_task("longtask.py")
     sender.close()

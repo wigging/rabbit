@@ -7,14 +7,14 @@ Number 35 takes a while to compute so good for a long running task.
 Number 18 gives an even analysis result.
 """
 
-import zampy
+import rabbit
 
 
 def main():
     """Run the client."""
     n = 35
 
-    client = zampy.FibClient()
+    client = rabbit.FibClient()
     response = client.request_number(n)
     print(f"[x] Got {response}")
 

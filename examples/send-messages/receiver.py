@@ -1,11 +1,11 @@
 """Receive messages from the sender."""
 
-import zampy
+import rabbit
 
 
 def example1():
     """Consume messages with default callback."""
-    receiver = zampy.MessageReceiver()
+    receiver = rabbit.MessageReceiver()
     receiver.consume()
 
 
@@ -17,7 +17,7 @@ def example2():
         print(f"○ Received message '{msg}' from sender. Woo hoo!")
         print("● Completed\n")
 
-    receiver = zampy.MessageReceiver()
+    receiver = rabbit.MessageReceiver()
     receiver.consume_callback(callback)
 
 

@@ -13,12 +13,12 @@ RABBITMQ_USERNAME="homersimp"
 RABBITMQ_PASSWORD="spring*field&2024"
 """
 
-import zampy
+import rabbit
 
 
 def main():
     """Run this example."""
-    _ = zampy.MessageSender(show_config=True)
+    _ = rabbit.MessageSender(show_config=True)
 
 
 

@@ -3,8 +3,8 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "zampy"
-version = "24.8"
+name = "rabbit"
+version = "24.9"
 dependencies = ["pika", "python-dotenv"]
 
 [tool.pyright]

@@ -1,11 +1,11 @@
 """Receive messages emitted from sender using exchange fanout."""
 
-import zampy
+import rabbit
 
 
 def main():
     """Receive messages."""
-    receiver = zampy.MessageReceiver()
+    receiver = rabbit.MessageReceiver()
     receiver.consume_emit()
 
 

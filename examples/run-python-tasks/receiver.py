@@ -1,11 +1,11 @@
 """Run Python tasks received from sender."""
 
-import zampy
+import rabbit
 
 
 def main():
     """Run Python tasks."""
-    receiver = zampy.PythonReceiver()
+    receiver = rabbit.PythonReceiver()
     receiver.consume_task()
 
 

@@ -1,11 +1,11 @@
 """Run a Python commands received from sender."""
 
-import zampy
+import rabbit
 
 
 def main():
     """Run Python commands."""
-    receiver = zampy.PythonReceiver()
+    receiver = rabbit.PythonReceiver()
     receiver.consume()
 
 

@@ -3,11 +3,11 @@
 # commands.
 #
 # Create the environment ....... conda env create --file environment.yml
-# Activate the environment ..... conda activate zampy
+# Activate the environment ..... conda activate rabbit
 # Deactivate the environment ... conda deactivate
-# Remove the environment ....... conda env remove --name zampy
+# Remove the environment ....... conda env remove --name rabbit
 
-name: zampy
+name: rabbit
 
 dependencies:
   - python

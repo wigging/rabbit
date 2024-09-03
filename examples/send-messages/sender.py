@@ -1,11 +1,11 @@
 """Send messages to the receiver."""
 
-import zampy
+import rabbit
 
 
 def main():
     """Send some messages."""
-    sender = zampy.MessageSender()
+    sender = rabbit.MessageSender()
     sender.connect()
     sender.send_message("hello there")
     sender.close()
