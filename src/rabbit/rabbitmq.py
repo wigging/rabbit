@@ -1,32 +1,21 @@
 """A class for working with RabbitMQ."""
 
-import os
 import textwrap
 import pika
-from dotenv import load_dotenv
 from typing import Callable
+from .config import get_config
 
 
 class RabbitMQ:
     """Class for working with RabbitMQ."""
 
     def __init__(self):
-        # Load environment variables from .env file if it exists
-        path = os.getcwd() + "/.env"
+        config = get_config()
 
-        if os.path.isfile(path):
-            load_dotenv(path)
-
-        # If environment variables don't exist then use defaults from pika
-        default_username = pika.ConnectionParameters.DEFAULT_USERNAME
-        default_password = pika.ConnectionParameters.DEFAULT_PASSWORD
-        default_host = pika.ConnectionParameters.DEFAULT_HOST
-        default_port = pika.ConnectionParameters.DEFAULT_PORT
-
-        self.username = os.getenv("RABBITMQ_USERNAME", default_username)
-        self.password = os.getenv("RABBITMQ_PASSWORD", default_password)
-        self.host = os.getenv("RABBITMQ_HOST", default_host)
-        self.port = int(os.getenv("RABBITMQ_PORT", default_port))
+        self.username = config["username"]
+        self.password = config["password"]
+        self.host = config["host"]
+        self.port = config["port"]
         self.connection = None
         self.channel = None
 
